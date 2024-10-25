@@ -6,7 +6,7 @@
   <body>
     <div class="container">
       <h1>글 수정</h1>
-      <form action="/edit/<%= post.id%>" method="get">
+      <form action="/edit/<%= post.id%>" method="post">
         <p>
           <label>제목</label>
           <input type="text" name="title" value="<%= post.title%>" size="100" />
