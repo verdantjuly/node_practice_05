@@ -3,8 +3,8 @@
     <title>Forloop</title>
   </head>
   <body>
-    <% for(let i=0; i< data.length; i++){ %>
+    <% for(let i=0; i< data.length; i++){ if (i%2 ==0){ %>
     <li><%= data[i]["title"]%> <%= data[i]["contnet"]%></li>
-    <% }%>
+    <% }}%>
   </body>
 </html>
