@@ -54,7 +54,6 @@ const initId = () => {
     const data = JSON.parse(result);
     const posts = data["data"];
     const idList = posts.map((x) => parseInt(x.id));
-    console.log("idList", idList);
     maxId = Math.max(...idList);
   } catch (e) {
     maxId = 0;
@@ -66,4 +65,62 @@ const getNextId = () => {
   return ++maxId;
 };
 
+app.get("/view/:id", (req, res) => {
+  const { id } = req.params;
+  let data = { data: [] };
+  try {
+    data = JSON.parse(fs.readFileSync("test.json", "utf-8"));
+  } catch (e) {
+    data = { data: [] };
+  }
+  let post = {};
+  data.data.forEach((item) => {
+    if (item.id == id) {
+      post = item;
+      item.count = item.count + 1;
+    }
+  });
+  fs.writeFileSync("test.json", JSON.stringify(data), "utf-8");
+  res.render("view", { post });
+});
+
+app.get("/edit/:id", (req, res) => {
+  const { id } = req.params;
+  let data = { data: [] };
+  try {
+    data = JSON.parse(fs.readFileSync("test.json", "utf-8"));
+  } catch (e) {
+    data = { data: [] };
+  }
+  let post = {};
+  data.data.forEach((item) => {
+    if (item.id == id) {
+      post = item;
+    }
+  });
+
+  res.render("edit", { post });
+});
+
+app.post("/edit/:id", (req, res) => {
+  const { id } = req.params;
+  const { title, content, author } = req.body;
+  const data = JSON.parse(fs.readFileSync("test.json", "utf-8"));
+  data.data.forEach((item) => {
+    if (item.id == id) {
+      item.title = title;
+      item.content = content;
+      item.author = author;
+    }
+  });
+  fs.writeFileSync("test.json", JSON.stringify(data), "utf-8");
+  res.redirect(`/view/${id}`);
+});
+app.get("/delete/:id", (req, res) => {
+  const { id } = req.params;
+  const data = JSON.parse(fs.readFileSync("test.json", "utf-8"));
+  const result = data.data.filter((item) => item.id !== id);
+  fs.writeFileSync("test.json", JSON.stringify(result), "utf-8");
+  res.redirect(`/list`);
+});
 app.listen(PORT);
