@@ -13,8 +13,8 @@ app.get("/", (req, res) => {
 
 const posts = [
   { title: "테스트 타이틀 1", content: "테스트 컨텐트 1" },
-  { title: "테스트 타이틀 1", content: "테스트 컨텐트 1" },
-  { title: "테스트 타이틀 1", content: "테스트 컨텐트 1" },
+  { title: "테스트 타이틀 2", content: "테스트 컨텐트 2" },
+  { title: "테스트 타이틀 3", content: "테스트 컨텐트 3" },
 ];
 
 app.get("/sample", (req, res) => {
